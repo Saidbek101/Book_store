@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block style %}
+<style>
+    .card {
+        margin: 5px;
+    }
+    .card-text {
+        font-size: 15px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for book in books %}
+        <div class="card" style="width: 18rem;">
+            <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ book.title }}</h5>
+              <p class="card-text description" id="{{ book.id }}" onclick="show(this)">{{ book.description }}</p>
+              <a class="btn btn-primary">{{ book.price }} so'm</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+
+    let descriptions = {}
+    let elements = document.getElementsByClassName('description');
+    for (let i = 0; i < elements.length; i++){
+        descriptions[elements[i].id] = elements[i].innerHTML
+        elements[i].innerHTML = elements[i].innerHTML.slice(0, 200) + '...'
+    }
+
+    function show(obj){
+        if (obj.innerHTML.length <= 205){
+            obj.innerHTML = descriptions[obj.id]
+        }else{
+            obj.innerHTML = obj.innerHTML.slice(0, 200) + '...'
+        }
+    }
+</script>
+{% endblock %}
+
